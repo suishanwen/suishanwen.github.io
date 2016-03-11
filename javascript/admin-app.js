@@ -7,10 +7,6 @@ angular.module('adminApp').config(['$routeProvider',
                 templateUrl: 'admin-login.html',
                 controller: 'AdminLoginController'
             }).
-            when('/admin-manage', {
-                templateUrl: 'admin-manage.html',
-                controller: 'AdminManageController'
-            }).
             when('/admin-main', {
                 templateUrl: 'admin-main.html',
                 controller: 'AdminMainController'
