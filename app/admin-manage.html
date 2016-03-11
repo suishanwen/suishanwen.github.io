@@ -1,0 +1,50 @@
+<div ng-controller="AdminManageController" ng-show="loginIn">
+    <div class="control-panel" align="center">
+        <button class="btn btn-default" ng-click="addNewAdmin()">新增</button>
+        <button class="btn btn-primary" ng-click="editAdminFun()">编辑</button>
+        <button class="btn btn-danger" ng-click = "delAdmin()">删除</button>
+        <form class="navbar-form navbar-left" role="search">
+            <div class="form-group">
+                <input type="text" class="form-control" placeholder="Search" ng-model="searchText.admin"/>
+            </div>
+        </form>
+    </div>
+    <table class="table">
+        <tr>
+            <td>用户名</td>
+            <td>密码</td>
+        </tr>
+        <tr ng-repeat="admin in adminList|filter:searchText" ng-click="selectedAdminFun(admin)" ng-class="{'selected':admin.id===selectedAdmin.id}">
+            <td>{{admin.admin}}</td>
+            <td>{{admin.password}}</td>
+        </tr>
+    </table>
+
+    <div class="hide"  modal = "addModal" close="addModal=false" options="modalOpt">
+        <div class="modal-header">
+            <button class="close"  ng-click="addModal=false">x</button>
+            <h5>新增管理员</h5>
+        </div>
+        <div class="modal-body">
+            <input type="text" id="addAdmin" ng-model="newAdmin.admin" placeholder="用户名"/><br/>
+            <input type="password" ng-model="newAdmin.password" placeholder="密码"/><br/>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-primary" ng-click="initNewAdmin()">重置</button>
+            <button class="btn btn-primary" ng-click="addAdmin()">确定</button>
+        </div>
+    </div>
+    <div class="hide"  modal = "editModal" close="editModal=false" options="modalOpt">
+        <div class="modal-header">
+            <button class="close"  ng-click="editModal=false">x</button>
+            <h5>编辑管理员</h5>
+        </div>
+        <div class="modal-body">
+            <input type="text" id="editAdmin" ng-model="selectedAdmin.admin" placeholder="用户名"/><br/>
+            <input type="password" ng-model="selectedAdmin.password" placeholder="密码"/><br/>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-primary" ng-click="editAdmin()">确定</button>
+        </div>
+    </div>
+</div>

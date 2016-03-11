@@ -1,0 +1,76 @@
+* {
+    margin: 0 auto;
+    padding: 0 auto;
+}
+
+a {
+    cursor: pointer;
+}
+
+.notice {
+    font-size: 20px;
+    color: brown
+}
+
+.online {
+    background: yellowgreen;
+}
+
+.selected {
+    background-color: #7fc3ff !important;
+}
+
+thead {
+    border: 1px solid #aaa
+}
+
+tfoot {
+    border: 1px solid #aaa
+}
+
+.navbar-form .form-group .control-group {
+    display: inline-block;
+    margin-left: 20px;
+}
+
+.project-search {
+    border: 1px green solid;
+    width: 220px;
+    display: block;
+    position: absolute;
+    overflow: hidden;
+}
+
+.project-search tr:nth-child(odd) {
+    background: white;
+}
+
+.project-search tr:nth-child(even) {
+    background: #F9F9F9;
+}
+
+.project-name {
+    display: inline-block;
+    float: left;
+    width: 180px;
+}
+
+.project-type {
+    display: inline-block;
+    float: right;
+    width: 38px;
+}
+
+.vm-stop {
+    display: inline-block;
+    float: right;
+}
+
+.vm-row {
+    font-size: 12px;
+}
+
+.vm-row td {
+    height: 20px;
+    padding: 0;
+}

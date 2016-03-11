@@ -1,0 +1,17 @@
+<div ng-controller="AdminLoginController">
+    <div class="hide" modal="true" options="modalOpt">
+        <form name="login-form" ng-submit="adminLogin()">
+            <div class="modal-header">
+                <h5>管理员登陆</h5>
+            </div>
+            <div class="modal-body">
+                <input type="text" name="admin" ng-model="admin.admin" placeholder="用户名" autofocus/><br/>
+                <input type="password" name="password" ng-model="admin.password" placeholder="密码" autofocus/>
+                <input type="checkbox" name="checkbox" ng-model="checkbox"/>记住密码
+            </div>
+            <div class="modal-footer">
+                <input type="submit" class="btn btn-primary" value="登陆" ng-click="adminLogin()" autofocus/>
+            </div>
+        </form>
+    </div>
+</div>

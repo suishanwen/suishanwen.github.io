@@ -1,0 +1,106 @@
+<div ng-controller="AdminMainController" id="adminMain">
+    <div class="control-panel" align="center">
+        <button class="btn btn-primary" ng-click="addNewProject()">新增项目</button>
+        <button class="btn btn-default" ng-click="addNewVm()">新增VM</button>
+        <button class="btn btn-danger" ng-click="deleteVm()">删除</button>
+    </div>
+    <form class="navbar-form navbar-left" role="search">
+        <div class="form-group">
+            <div class="control-group">
+                <input type="text" class="form-control" placeholder="Search" ng-model="searchText"/>
+
+            </div>
+            <div class="control-group">
+                <label><input type="checkbox" class="form-control" ng-model="showAll" ng-change="refreshVmInfo()"/>显示停用</label>
+            </div>
+            <div class="control-group">
+                <input type="text" class="form-control" id="projectSearch" ng-model="inputCode" ng-click="selectProjectSearch()" placeholder="搜索项目"/>
+
+                <div ng-show="projectSearchShow" click-outside="closeProjectSearchEvent()">
+                    <table class="project-search">
+                        <tr ng-repeat="project in projectList" ng-class="{'selected':project===selectedProject}" ng-click="selectProject(project)" ng-dblclick="setSelectedProject(project)">
+                            <td>
+                                <span class="project-name" ng-bind="project.name"></span>
+                                <span class="project-type" ng-bind="project.type"></span>
+                                <a ng-if="!isPc&&project===selectedProject"  ng-click="setSelectedProject(project)">确定</a>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+            <div class="control-group">
+                <a ng-href="{{getProjectInfo('bg')}}" target="_blank">后台</a>
+                <a  ng-href="{{getProjectInfo('dl')}}" target="_blank">下载</a>
+            </div>
+            <div class="control-group">
+                <a ng-click="changeProject(-1)">切换</a>
+            </div>
+            <div class="control-group">
+                <a ng-click="refreshVmInfo()">刷新</a>
+            </div>
+            <div class="control-group">
+                <span ng-bind="count"></span>秒后自动刷新
+            </div>
+        </div>
+    </form>
+    <table class="table">
+        <tr>
+            <td>序号</td>
+            <td>状态</td>
+            <td>项目</td>
+            <td>成功</td>
+            <td>失败</td>
+            <td>超时</td>
+            <td>信息</td>
+            <td>开始时间</td>
+            <td>报告时间</td>
+            <td>操作</td>
+        </tr>
+        <tr class="vm-row" ng-repeat="vm in vmList|filter:searchText" ng-click="selectVm(vm)" ng-class="{'selected':vm===selectedVm}">
+            <td><span ng-bind="vm.sortNo"></span></td>
+            <td><span ng-bind="getVmState(vm.state)"></span></td>
+            <td><span ng-bind="vm.project"></span></td>
+            <td><span ng-bind="vm.success"></span></td>
+            <td><span ng-bind="vm.fail"></span></td>
+            <td><span ng-bind="vm.timeout"></span></td>
+            <td><span ng-bind="vm.message"></span></td>
+            <td><span ng-bind="vm.startTime|date:'yyyy-MM-dd HH:mm:ss'"></span></td>
+            <td><span ng-bind="vm.reportTime|date:'yyyy-MM-dd HH:mm:ss'"></span></td>
+            <td>
+                <a  ng-show="getOperationShow(vm.state,1)" ng-click="changeProject(vm.sortNo)">切换</a>
+                <a class="vm-stop" ng-show="getOperationShow(vm.state,2)" ng-click="changeState(vm)">{{getOperateButton(vm.state)}}</a>
+            </td>
+        </tr>
+    </table>
+
+    <div class="hide" modal="addVmModal" close="addVmModal=false" options="modalOpt">
+        <div class="modal-header">
+            <button class="close" ng-click="addVmModal=false">x</button>
+            <h5>新增虚拟机</h5>
+        </div>
+        <div class="modal-body">
+            <input type="text" ng-model="newVm.sortNo" autofocus placeholder="虚拟机编号"/><br/>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-primary" ng-click="addInfo('vm')">确定</button>
+        </div>
+    </div>
+
+    <div class="hide" modal="addProjectModal" close="addProjectModal=false" options="modalOpt">
+        <div class="modal-header">
+            <button class="close" ng-click="addProjectModal=false">x</button>
+            <h5>新增投票项目</h5>
+        </div>
+        <div class="modal-body">
+            <input type="text" ng-model="newProject.name" autofocus placeholder="项目名"/><br/>
+            <select ng-model="newProject.type">
+                <option value="九天">九天</option>
+                <option ng-if="!isNormalUser" value="挂机">挂机</option>
+                <option ng-if="!isNormalUser" value="系统">系统</option>
+            </select>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-primary" ng-click="addInfo('project')">确定</button>
+        </div>
+    </div>
+</div>
