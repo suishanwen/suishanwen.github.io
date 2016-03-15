@@ -60,7 +60,7 @@
             <td><span ng-bind="vm.sortNo"></span></td>
             <td><span ng-bind="getVmState(vm.state)"></span></td>
             <td><span ng-bind="vm.project"></span></td>
-            <td><span ng-bind="vm.success"></span></td>
+            <td><span ng-bind="vm.success"></span><span class="increase" ng-show="vm.increase">{{vm.increase}}<img src="../assets/img/increase.jpg" class="increase-img"/></span></td>
             <td><span ng-bind="vm.fail"></span></td>
             <td><span ng-bind="vm.timeout"></span></td>
             <td><span ng-bind="vm.message"></span></td>

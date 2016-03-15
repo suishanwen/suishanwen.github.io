@@ -1,5 +1,5 @@
-AdminMainController.$inject = ["$scope","$location","modalOpt","$interval","httpPostService","api"];
-function AdminMainController($scope, $location, modalOpt, $interval,httpPostService,api) {
+AdminMainController.$inject = ["$scope", "$location", "modalOpt", "$interval", "httpPostService", "api"];
+function AdminMainController($scope, $location, modalOpt, $interval, httpPostService, api) {
 
     (function () {
         if (sessionStorage.loginUser && sessionStorage.loginUserState > 0) {
@@ -16,7 +16,7 @@ function AdminMainController($scope, $location, modalOpt, $interval,httpPostServ
         $scope.count = 0;
         $scope.inputCode = "";
         $scope.isPc = IsPC();
-        $scope.isNormalUser =  sessionStorage.loginUserState == "1";
+        $scope.isNormalUser = sessionStorage.loginUserState == "1";
         $scope.modalOpt = modalOpt;
         $scope.projectSearchShow = false;
         $scope.projectList = [];
@@ -26,6 +26,7 @@ function AdminMainController($scope, $location, modalOpt, $interval,httpPostServ
         $scope.showAll = false;
         $scope.selectAll = false;
         $scope.vmList = [];
+        $scope.vmListOld = [];
 
         $interval(function () {
             if ($scope.count > 0) {
@@ -37,25 +38,25 @@ function AdminMainController($scope, $location, modalOpt, $interval,httpPostServ
         }, 1000);
     }
 
-    $scope.addNewVm=addNewVm;
-    $scope.addNewProject=addNewProject;
-    $scope.addInfo=addInfo;
-    $scope.changeProject=changeProject;
-    $scope.changeState=changeState;
-    $scope.closeProjectSearchEvent=closeProjectSearchEvent;
-    $scope.deleteVm=deleteVm;
-    $scope.getVmState =getVmState;
-    $scope.getOperateButton=getOperateButton;
-    $scope.getOperationShow=getOperationShow;
-    $scope.getProjectInfo =getProjectInfo;
-    $scope.initNewVm=initNewVm;
-    $scope.initNewProject=initNewProject;
+    $scope.addNewVm = addNewVm;
+    $scope.addNewProject = addNewProject;
+    $scope.addInfo = addInfo;
+    $scope.changeProject = changeProject;
+    $scope.changeState = changeState;
+    $scope.closeProjectSearchEvent = closeProjectSearchEvent;
+    $scope.deleteVm = deleteVm;
+    $scope.getVmState = getVmState;
+    $scope.getOperateButton = getOperateButton;
+    $scope.getOperationShow = getOperationShow;
+    $scope.getProjectInfo = getProjectInfo;
+    $scope.initNewVm = initNewVm;
+    $scope.initNewProject = initNewProject;
     $scope.refreshVmInfo = getVmList;
-    $scope.selectVm=selectVm;
-    $scope.searchProject=searchProject;
-    $scope.selectProject =selectProject;
-    $scope.setSelectedProject=setSelectedProject;
-    $scope.selectProjectSearch=selectProjectSearch;
+    $scope.selectVm = selectVm;
+    $scope.searchProject = searchProject;
+    $scope.selectProject = selectProject;
+    $scope.setSelectedProject = setSelectedProject;
+    $scope.selectProjectSearch = selectProjectSearch;
 
     function addNewVm() {
         $scope.initNewVm();
@@ -77,7 +78,7 @@ function AdminMainController($scope, $location, modalOpt, $interval,httpPostServ
             url = api.projectAdd;
             object = $scope.newProject;
         }
-        httpPostService.call(url,object)
+        httpPostService.call(url, object)
             .then(function (tag) {
                 if (tag === "1") {
                     alert("添加失败:已存在！")
@@ -108,7 +109,7 @@ function AdminMainController($scope, $location, modalOpt, $interval,httpPostServ
             url = api.vmChangeSingle;
             params = "unique=" + sessionStorage.loginUser + "-" + index + "&project=" + $scope.selectedProjects[0].name;
         }
-        httpPostService.call(url,null,params)
+        httpPostService.call(url, null, params)
             .then(function (data) {
                 $scope.refreshVmInfo();
             }, function (data) {
@@ -118,7 +119,7 @@ function AdminMainController($scope, $location, modalOpt, $interval,httpPostServ
 
     function changeState(vm) {
         vm.state = vm.state === -1 ? 0 : -1;
-        httpPostService.call(api.vmUpdate,vm)
+        httpPostService.call(api.vmUpdate, vm)
             .then(function () {
 
             }, function (data) {
@@ -132,7 +133,7 @@ function AdminMainController($scope, $location, modalOpt, $interval,httpPostServ
             if (!result) {
                 return;
             }
-            httpPostService.call(api.vmDelete,$scope.selectedVm.id)
+            httpPostService.call(api.vmDelete, $scope.selectedVm.id)
                 .then(function (data) {
                     $scope.selectedVm = null;
                     getVmList();
@@ -186,14 +187,21 @@ function AdminMainController($scope, $location, modalOpt, $interval,httpPostServ
         }
         $scope.count = 30;
         $scope.selectedVm = null;
-        httpPostService.call(api.vms,sessionStorage.loginUser)
+        httpPostService.call(api.vms, sessionStorage.loginUser)
             .then(function (data) {
                 if (!$scope.showAll) {
                     data = data.filter(function (e) {
                         return e.state !== -1;
                     })
                 }
+                $scope.vmListOld = angular.copy($scope.vmList);
                 $scope.vmList = angular.copy(data);
+                if ($scope.vmList.length > 0 && $scope.vmListOld.length > 0 && $scope.vmList.length === $scope.vmListOld.length) {
+                    $scope.vmList.forEach(function (item, index) {
+                        var increase = item.success - $scope.vmListOld[index].success;
+                        item.increase = increase > 0 ? increase : undefined;
+                    });
+                }
             }, function (data) {
                 alert("服务器异常：获取虚拟机信息失败！");
             });
@@ -249,11 +257,13 @@ function AdminMainController($scope, $location, modalOpt, $interval,httpPostServ
     function selectProject(project) {
         $scope.selectedProject = project;
     }
+
     function setSelectedProject(project) {
         $scope.selectedProjects.splice(0);
         $scope.selectedProjects.push(project);
         $scope.inputCode = project.name + "-" + project.type;
     }
+
     function closeProjectSearchEvent() {
         $scope.projectSearchShow = false;
         $scope.selectedProject = null;
@@ -266,7 +276,7 @@ function AdminMainController($scope, $location, modalOpt, $interval,httpPostServ
     }
 
     function searchProject(inputCode) {
-        httpPostService.call(api.projectSearch,inputCode)
+        httpPostService.call(api.projectSearch, inputCode)
             .then(function (data) {
                 if (data.length > 0) {
                     $scope.projectList = angular.copy(data);
