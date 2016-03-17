@@ -13,6 +13,7 @@ function AdminMainController($scope, $location, modalOpt, $interval, httpPostSer
     function initFun() {
         $scope.addVmModal = false;
         $scope.addProjectModal = false;
+        $scope.checkDmOnly = false;
         $scope.count = 0;
         $scope.inputCode = "";
         $scope.isPc = IsPC();
@@ -104,7 +105,8 @@ function AdminMainController($scope, $location, modalOpt, $interval, httpPostSer
         var params;
         if (index === -1) {
             url = api.vmChangeAll;
-            params = "admin=" + sessionStorage.loginUser + "&project=" + $scope.selectedProjects[0].name;
+            var dmFlag=$scope.checkDmOnly?1:0;
+            params = "admin=" + sessionStorage.loginUser + "&project=" + $scope.selectedProjects[0].name + "&dmFlag=" + dmFlag;
         } else {
             url = api.vmChangeSingle;
             params = "unique=" + sessionStorage.loginUser + "-" + index + "&project=" + $scope.selectedProjects[0].name;

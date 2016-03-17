@@ -14,6 +14,9 @@
                 <label><input type="checkbox" class="form-control" ng-model="showAll" ng-change="refreshVmInfo()"/>显示停用</label>
             </div>
             <div class="control-group">
+                <label><input type="checkbox" class="form-control" ng-model="checkDmOnly" ng-change="refreshVmInfo()"/>待命的VM</label>
+            </div>
+            <div class="control-group">
                 <input type="text" class="form-control" id="projectSearch" ng-model="inputCode" ng-click="selectProjectSearch()" placeholder="搜索项目"/>
 
                 <div ng-show="projectSearchShow" click-outside="closeProjectSearchEvent()">
