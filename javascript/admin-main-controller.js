@@ -121,6 +121,8 @@ function AdminMainController($scope, $location, modalOpt, $interval, httpPostSer
 
     function changeState(vm) {
         vm.state = vm.state === -1 ? 0 : -1;
+        delete vm.increase;
+        delete vm.isDrop;
         httpPostService.call(api.vmUpdate, vm)
             .then(function () {
 
