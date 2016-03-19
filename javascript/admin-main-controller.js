@@ -125,7 +125,7 @@ function AdminMainController($scope, $location, modalOpt, $interval, httpPostSer
             .then(function () {
 
             }, function (data) {
-                alert("服务器异常：添加失败！");
+                alert("服务器异常：更改状态失败！");
             });
     }
 
@@ -198,10 +198,15 @@ function AdminMainController($scope, $location, modalOpt, $interval, httpPostSer
                 }
                 $scope.vmListOld = angular.copy($scope.vmList);
                 $scope.vmList = angular.copy(data);
-                if ($scope.vmList.length > 0 && $scope.vmListOld.length > 0 && $scope.vmList.length === $scope.vmListOld.length) {
+                if ($scope.vmList.length > 0) {
+                    var now=new Date();
+                    var isOldExist=$scope.vmListOld.length > 0 && $scope.vmList.length === $scope.vmListOld.length;
                     $scope.vmList.forEach(function (item, index) {
-                        var increase = item.success - $scope.vmListOld[index].success;
-                        item.increase = increase > 0 ? increase : undefined;
+                        if(isOldExist){
+                            var increase = item.success - $scope.vmListOld[index].success;
+                            item.increase = increase > 0 ? increase : undefined;
+                        }
+                        item.isDrop = now.getTime() - item.reportTime > 1000 * 60 * 10 ? true : false;
                     });
                 }
             }, function (data) {

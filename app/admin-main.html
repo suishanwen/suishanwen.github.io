@@ -59,7 +59,7 @@
             <td>报告时间</td>
             <td>操作</td>
         </tr>
-        <tr class="vm-row" ng-repeat="vm in vmList|filter:searchText" ng-click="selectVm(vm)" ng-class="{'selected':vm===selectedVm}">
+        <tr class="vm-row" ng-repeat="vm in vmList|filter:searchText" ng-click="selectVm(vm)" ng-class="{'selected':vm===selectedVm,'drop':vm.isDrop}">
             <td><span ng-bind="vm.sortNo"></span></td>
             <td><span ng-bind="getVmState(vm.state)"></span></td>
             <td><span ng-bind="vm.project"></span></td>

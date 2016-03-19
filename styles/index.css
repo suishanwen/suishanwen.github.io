@@ -20,6 +20,10 @@ a {
     background-color: #7fc3ff !important;
 }
 
+.drop {
+    background-color: darkgray !important;
+}
+
 thead {
     border: 1px solid #aaa
 }
