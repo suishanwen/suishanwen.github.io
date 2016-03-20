@@ -44,6 +44,12 @@
             <div class="control-group">
                 <span ng-bind="count"></span>秒后自动刷新
             </div>
+            <div class="control-group">
+                合计成功：<span ng-bind="amountInfo.total"></span>
+                <span ng-show="amountInfo.increase">{{amountInfo.increase}}
+                      <img src="../assets/img/increase.jpg" class="increase-img"/>
+                </span>
+            </div>
         </div>
     </form>
     <table class="table">

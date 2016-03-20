@@ -28,7 +28,7 @@ function AdminMainController($scope, $location, modalOpt, $interval, httpPostSer
         $scope.selectAll = false;
         $scope.vmList = [];
         $scope.vmListOld = [];
-
+        $scope.amountInfo={"total":0,"increase":0};
         $interval(function () {
             if ($scope.count > 0) {
                 $scope.count--;
@@ -201,15 +201,19 @@ function AdminMainController($scope, $location, modalOpt, $interval, httpPostSer
                 $scope.vmListOld = angular.copy($scope.vmList);
                 $scope.vmList = angular.copy(data);
                 if ($scope.vmList.length > 0) {
-                    var now=new Date();
-                    var isOldExist=$scope.vmListOld.length > 0 && $scope.vmList.length === $scope.vmListOld.length;
+                    var bak = $scope.amountInfo.total;
+                    $scope.amountInfo.total = 0;
+                    var now = new Date();
+                    var isOldExist = $scope.vmListOld.length > 0 && $scope.vmList.length === $scope.vmListOld.length;
                     $scope.vmList.forEach(function (item, index) {
-                        if(isOldExist){
+                        $scope.amountInfo.total += item.success;
+                        if (isOldExist) {
                             var increase = item.success - $scope.vmListOld[index].success;
                             item.increase = increase > 0 ? increase : undefined;
                         }
                         item.isDrop = now.getTime() - item.reportTime > 1000 * 60 * 10 ? true : false;
                     });
+                    $scope.amountInfo.increase = $scope.amountInfo.total - bak;
                 }
             }, function (data) {
                 alert("服务器异常：获取虚拟机信息失败！");
