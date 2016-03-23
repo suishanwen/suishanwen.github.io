@@ -32,6 +32,19 @@
                 </div>
             </div>
             <div class="control-group">
+                <input type="text" ng-model="employeeNo" id="employeeSelect" self-width="120" ng-click="showEmployeeSelectEvent()" placeholder="工号"/>
+                <div ng-show="employeeSelectShow" click-outside="closeEmployeeSelectEvent()" >
+                    <table class="employee-select">
+                        <tr ng-repeat="employee in employeeList" ng-class="{'selected':employee===selectedEmployee}" ng-click="selectEmployee(employee)" ng-dblclick="setSelectedEmployee(employee)">
+                            <td>
+                                <span class="employee-id" ng-bind="employee"></span>
+                                <a ng-if="!isPc&&employee===selectedEmployee"  ng-click="setSelectedEmployee(employee)">确定</a>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+            <div class="control-group">
                 <a ng-href="{{getProjectInfo('bg')}}" target="_blank">后台</a>
                 <a  ng-href="{{getProjectInfo('dl')}}" target="_blank">下载</a>
             </div>

@@ -17,7 +17,7 @@ angular.module('adminApp').config(['$routeProvider',
 
 angular.module("adminApp")
     .controller("AdminLoginController", AdminLoginController)
-    .controller("AdminMainController",AdminMainController)
+    .controller("AdminMainController",AdminMainController);
 
 angular.module('adminApp').value("modalOpt",{
         dialogClass: "modal",
@@ -28,6 +28,7 @@ angular.module('adminApp').value("modalOpt",{
         backdropClick: false
     }) .constant("api",{
         "login":"http://42.96.207.122:89/api/admin/login",
+        "employeeNoChange":"http://42.96.207.122:89/api/admin/eic",
         "vms":"http://42.96.207.122:89/api/vm",
         "vmDelete":"http://42.96.207.122:89/api/vm/delete",
         "vmAdd":"http://42.96.207.122:89/api/vm/add",
@@ -103,3 +104,13 @@ angular.module('adminApp').directive('clickOutside', ['$document', function ($do
         }
     };
 }]);
+
+
+angular.module('adminApp').directive("selfWidth",function(){
+    return{
+        restrict: 'A',
+        link: function(scope,element,attrs){
+            element[0].style.width=attrs.selfWidth+"px";
+        }
+    }
+});

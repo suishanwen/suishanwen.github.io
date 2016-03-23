@@ -7,6 +7,14 @@ a {
     cursor: pointer;
 }
 
+table tr:nth-child(odd) {
+    background: white;
+}
+
+table tr:nth-child(even) {
+    background: #F9F9F9;
+}
+
 .notice {
     font-size: 20px;
     color: brown
@@ -44,14 +52,19 @@ tfoot {
     overflow: hidden;
 }
 
-.project-search tr:nth-child(odd) {
-    background: white;
-}
 
-.project-search tr:nth-child(even) {
-    background: #F9F9F9;
-}
 
+.employee-select{
+    border: 1px blue solid;
+    width: 134px;
+    display: block;
+    position: absolute;
+    overflow: hidden;
+}
+.employee-id{
+    display: inline-block;
+    width:134px;
+}
 .project-name {
     display: inline-block;
     float: left;

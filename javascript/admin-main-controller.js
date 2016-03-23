@@ -3,7 +3,6 @@ function AdminMainController($scope, $location, modalOpt, $interval, httpPostSer
 
     (function () {
         if (sessionStorage.loginUser && sessionStorage.loginUserState > 0) {
-            $scope.loginUserState = sessionStorage.loginUserState;
             initFun();
         } else {
             $location.path('/admin-login');
@@ -15,6 +14,9 @@ function AdminMainController($scope, $location, modalOpt, $interval, httpPostSer
         $scope.addProjectModal = false;
         $scope.checkDmOnly = false;
         $scope.count = 0;
+        $scope.employeeList = [];
+        $scope.employeeNo = "";
+        $scope.employeeSelectShow = false;
         $scope.inputCode = "";
         $scope.isPc = IsPC();
         $scope.isNormalUser = sessionStorage.loginUserState == "1";
@@ -28,7 +30,8 @@ function AdminMainController($scope, $location, modalOpt, $interval, httpPostSer
         $scope.selectAll = false;
         $scope.vmList = [];
         $scope.vmListOld = [];
-        $scope.amountInfo={"total":0,"increase":0};
+        $scope.amountInfo = {"total": 0, "increase": 0};
+        initEmployeeInfo();
         $interval(function () {
             if ($scope.count > 0) {
                 $scope.count--;
@@ -45,6 +48,7 @@ function AdminMainController($scope, $location, modalOpt, $interval, httpPostSer
     $scope.changeProject = changeProject;
     $scope.changeState = changeState;
     $scope.closeProjectSearchEvent = closeProjectSearchEvent;
+    $scope.closeEmployeeSelectEvent = closeEmployeeSelectEvent;
     $scope.deleteVm = deleteVm;
     $scope.getVmState = getVmState;
     $scope.getOperateButton = getOperateButton;
@@ -58,6 +62,9 @@ function AdminMainController($scope, $location, modalOpt, $interval, httpPostSer
     $scope.selectProject = selectProject;
     $scope.setSelectedProject = setSelectedProject;
     $scope.selectProjectSearch = selectProjectSearch;
+    $scope.selectEmployee = selectEmployee;
+    $scope.setSelectedEmployee = setSelectedEmployee;
+    $scope.showEmployeeSelectEvent = showEmployeeSelectEvent;
 
     function addNewVm() {
         $scope.initNewVm();
@@ -105,7 +112,7 @@ function AdminMainController($scope, $location, modalOpt, $interval, httpPostSer
         var params;
         if (index === -1) {
             url = api.vmChangeAll;
-            var dmFlag=$scope.checkDmOnly?1:0;
+            var dmFlag = $scope.checkDmOnly ? 1 : 0;
             params = "admin=" + sessionStorage.loginUser + "&project=" + $scope.selectedProjects[0].name + "&dmFlag=" + dmFlag;
         } else {
             url = api.vmChangeSingle;
@@ -129,6 +136,16 @@ function AdminMainController($scope, $location, modalOpt, $interval, httpPostSer
             }, function (data) {
                 alert("服务器异常：更改状态失败！");
             });
+    }
+
+    function closeProjectSearchEvent() {
+        $scope.projectSearchShow = false;
+        $scope.selectedProject = null;
+    }
+
+    function closeEmployeeSelectEvent() {
+        $scope.employeeSelectShow = false;
+        $scope.selectedEmployee = null;
     }
 
     function deleteVm() {
@@ -249,6 +266,14 @@ function AdminMainController($scope, $location, modalOpt, $interval, httpPostSer
         return flag;
     }
 
+    function initEmployeeInfo() {
+        if (sessionStorage.employeeNo) {
+            $scope.employeeList = sessionStorage.employeeNo.split("|");
+            $scope.employeeNo = $scope.employeeList[0];
+            $scope.employeeListBak = angular.copy($scope.employeeList);
+        }
+    }
+
     function initNewVm() {
         $scope.newVm = {
             admin: sessionStorage.loginUser,
@@ -277,10 +302,30 @@ function AdminMainController($scope, $location, modalOpt, $interval, httpPostSer
         $scope.inputCode = project.name + "-" + project.type;
     }
 
-    function closeProjectSearchEvent() {
-        $scope.projectSearchShow = false;
-        $scope.selectedProject = null;
+    function selectEmployee(employee) {
+        $scope.selectedEmployee = employee;
     }
+
+    function setSelectedEmployee(employee) {
+        $scope.employeeNo = employee;
+        $scope.employeeListBak = $scope.employeeListBak.filter(function (e) {
+            return e !== employee;
+        });
+        $scope.employeeListBak.unshift(employee);
+        var employeeNo=$scope.employeeListBak.join("|");
+        httpPostService.call(api.employeeNoChange, null, "admin=" + sessionStorage.loginUser + "&employeeNo=" + employeeNo)
+            .then(function (data) {
+                if(data!==employeeNo){
+                    alert("工号更改失败！")
+                }else{
+                    sessionStorage.employeeNo=employeeNo;
+                    closeEmployeeSelectEvent();
+                }
+            }, function () {
+                alert("工号更改失败！")
+            })
+    }
+
 
     function selectProjectSearch() {
         setTimeout(function () {
@@ -302,6 +347,13 @@ function AdminMainController($scope, $location, modalOpt, $interval, httpPostSer
             });
     }
 
+    function showEmployeeSelectEvent() {
+        $scope.employeeSelectShow = true;
+        setTimeout(function () {
+            $("#employeeSelect").select();
+        }, 100);
+    }
+
     $scope.$watch("inputCode", function (newvalue, oldvalue) {
         if (newvalue) {
             $scope.searchProject(newvalue);
@@ -310,5 +362,19 @@ function AdminMainController($scope, $location, modalOpt, $interval, httpPostSer
         }
     }, true);
 
+    $scope.$watch("employeeNo", function (newvalue, oldvalue) {
+        if (newvalue) {
+            var exist = $scope.employeeList.some(function (e) {
+                return e === newvalue;
+            });
+            if (!exist) {
+                var employeeList=angular.copy($scope.employeeListBak);
+                employeeList.unshift(newvalue.toString().toUpperCase());
+                $scope.employeeList=employeeList;
+            }
+        }else if(newvalue===""){
+            $scope.employeeList=angular.copy($scope.employeeListBak);
+        }
+    }, true);
 }
 

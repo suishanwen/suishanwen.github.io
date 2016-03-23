@@ -17,6 +17,7 @@ function AdminLoginController($scope, $location, modalOpt, httpPostService, api)
                     if (data) {
                         sessionStorage.loginUser = data.admin;
                         sessionStorage.loginUserState = data.state;
+                        sessionStorage.employeeNo=data.employeeNo;
                         if ($scope.checkbox) {
                             localStorage.admin = data.admin;
                             localStorage.password = data.password;
