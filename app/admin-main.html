@@ -37,7 +37,8 @@
                     <table class="employee-select">
                         <tr ng-repeat="employee in employeeList" ng-class="{'selected':employee===selectedEmployee}" ng-click="selectEmployee(employee)" ng-dblclick="setSelectedEmployee(employee)">
                             <td>
-                                <span class="employee-id" ng-bind="employee"></span>
+                                <span class="employee-no" ng-bind="employee"></span>
+                                <span class="employee-remove"  ng-click="removeEmployee(employee)">X</span>
                                 <a ng-if="!isPc&&employee===selectedEmployee"  ng-click="setSelectedEmployee(employee)">确定</a>
                             </td>
                         </tr>

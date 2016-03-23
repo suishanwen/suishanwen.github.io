@@ -57,6 +57,7 @@ function AdminMainController($scope, $location, modalOpt, $interval, httpPostSer
     $scope.initNewVm = initNewVm;
     $scope.initNewProject = initNewProject;
     $scope.refreshVmInfo = getVmList;
+    $scope.removeEmployee=removeEmployee;
     $scope.selectVm = selectVm;
     $scope.searchProject = searchProject;
     $scope.selectProject = selectProject;
@@ -288,6 +289,27 @@ function AdminMainController($scope, $location, modalOpt, $interval, httpPostSer
         }
     }
 
+    function removeEmployee(employee){
+        $scope.employeeListBak = $scope.employeeListBak.filter(function (e) {
+            return e !== employee;
+        });
+        var employeeNo=$scope.employeeListBak.join("|");
+        httpPostService.call(api.employeeNoChange, null, "admin=" + sessionStorage.loginUser + "&employeeNo=" + employeeNo)
+            .then(function (data) {
+                if(data!==employeeNo){
+                    alert("工号移除失败！")
+                }else{
+                    if(employee===$scope.employeeNo){
+                        $scope.employeeNo=null;
+                    }
+                    sessionStorage.employeeNo=employeeNo;
+                    $scope.employeeList=angular.copy($scope.employeeListBak);
+                }
+            }, function () {
+                alert("工号移除失败！")
+            })
+    }
+
     function selectVm(vm) {
         $scope.selectedVm = vm;
     }
@@ -364,6 +386,10 @@ function AdminMainController($scope, $location, modalOpt, $interval, httpPostSer
 
     $scope.$watch("employeeNo", function (newvalue, oldvalue) {
         if (newvalue) {
+            if($scope.employeeList===undefined){
+                $scope.employeeList=[];
+                $scope.employeeListBak=[];
+            }
             var exist = $scope.employeeList.some(function (e) {
                 return e === newvalue;
             });

@@ -61,9 +61,16 @@ tfoot {
     position: absolute;
     overflow: hidden;
 }
-.employee-id{
+.employee-no{
     display: inline-block;
-    width:134px;
+    float: left;
+    width:120px;
+}
+.employee-remove{
+    display: inline-block;
+    float: right;
+    cursor: pointer;
+    width:12px;
 }
 .project-name {
     display: inline-block;
