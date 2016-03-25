@@ -1,5 +1,6 @@
 <div ng-controller="AdminMainController" id="adminMain">
-    <div class="control-panel" align="center">
+    <div class="book-mark" ng-mouseenter="buttonShow = true" ng-mouseleave="buttonDelayHide()"><span><img src="../assets/img/bookmarks.jpg"></span></div>
+    <div class="control-panel" align="center" ng-show="buttonShow">
         <button class="btn btn-primary" ng-click="addNewProject()">新增项目</button>
         <button class="btn btn-default" ng-click="addNewVm()">新增VM</button>
         <button class="btn btn-danger" ng-click="deleteVm()">删除</button>

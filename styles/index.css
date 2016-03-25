@@ -112,3 +112,15 @@ tfoot {
     font-size: 10px;
     color:grey;
 }
+
+
+.book-mark{
+    display: block;
+    position: absolute;
+    cursor: pointer;
+    margin: auto;
+}
+.book-mark img{
+    width: 20px;
+    height: 30px;
+}

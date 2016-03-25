@@ -12,6 +12,7 @@ function AdminMainController($scope, $location, modalOpt, $interval, httpPostSer
     function initFun() {
         $scope.addVmModal = false;
         $scope.addProjectModal = false;
+        $scope.buttonShow = false;
         $scope.checkDmOnly = false;
         $scope.count = 0;
         $scope.employeeList = [];
@@ -45,6 +46,7 @@ function AdminMainController($scope, $location, modalOpt, $interval, httpPostSer
     $scope.addNewVm = addNewVm;
     $scope.addNewProject = addNewProject;
     $scope.addInfo = addInfo;
+    $scope.buttonDelayHide = buttonDelayHide;
     $scope.changeProject = changeProject;
     $scope.changeState = changeState;
     $scope.closeProjectSearchEvent = closeProjectSearchEvent;
@@ -57,7 +59,7 @@ function AdminMainController($scope, $location, modalOpt, $interval, httpPostSer
     $scope.initNewVm = initNewVm;
     $scope.initNewProject = initNewProject;
     $scope.refreshVmInfo = getVmList;
-    $scope.removeEmployee=removeEmployee;
+    $scope.removeEmployee = removeEmployee;
     $scope.selectVm = selectVm;
     $scope.searchProject = searchProject;
     $scope.selectProject = selectProject;
@@ -102,6 +104,12 @@ function AdminMainController($scope, $location, modalOpt, $interval, httpPostSer
             }, function (data) {
                 alert("服务器异常：添加失败！");
             });
+    }
+
+    function buttonDelayHide() {
+        setTimeout(function () {
+            $scope.buttonShow = false;
+        }, 8000)
     }
 
     function changeProject(index) {
@@ -289,21 +297,21 @@ function AdminMainController($scope, $location, modalOpt, $interval, httpPostSer
         }
     }
 
-    function removeEmployee(employee){
+    function removeEmployee(employee) {
         $scope.employeeListBak = $scope.employeeListBak.filter(function (e) {
             return e !== employee;
         });
-        var employeeNo=$scope.employeeListBak.join("|");
+        var employeeNo = $scope.employeeListBak.join("|");
         httpPostService.call(api.employeeNoChange, null, "admin=" + sessionStorage.loginUser + "&employeeNo=" + employeeNo)
             .then(function (data) {
-                if(data!==employeeNo){
+                if (data !== employeeNo) {
                     alert("工号移除失败！")
-                }else{
-                    if(employee===$scope.employeeNo){
-                        $scope.employeeNo=null;
+                } else {
+                    if (employee === $scope.employeeNo) {
+                        $scope.employeeNo = null;
                     }
-                    sessionStorage.employeeNo=employeeNo;
-                    $scope.employeeList=angular.copy($scope.employeeListBak);
+                    sessionStorage.employeeNo = employeeNo;
+                    $scope.employeeList = angular.copy($scope.employeeListBak);
                 }
             }, function () {
                 alert("工号移除失败！")
@@ -334,13 +342,13 @@ function AdminMainController($scope, $location, modalOpt, $interval, httpPostSer
             return e !== employee;
         });
         $scope.employeeListBak.unshift(employee);
-        var employeeNo=$scope.employeeListBak.join("|");
+        var employeeNo = $scope.employeeListBak.join("|");
         httpPostService.call(api.employeeNoChange, null, "admin=" + sessionStorage.loginUser + "&employeeNo=" + employeeNo)
             .then(function (data) {
-                if(data!==employeeNo){
+                if (data !== employeeNo) {
                     alert("工号更改失败！")
-                }else{
-                    sessionStorage.employeeNo=employeeNo;
+                } else {
+                    sessionStorage.employeeNo = employeeNo;
                     closeEmployeeSelectEvent();
                 }
             }, function () {
@@ -386,20 +394,20 @@ function AdminMainController($scope, $location, modalOpt, $interval, httpPostSer
 
     $scope.$watch("employeeNo", function (newvalue, oldvalue) {
         if (newvalue) {
-            if($scope.employeeList===undefined){
-                $scope.employeeList=[];
-                $scope.employeeListBak=[];
+            if ($scope.employeeList === undefined) {
+                $scope.employeeList = [];
+                $scope.employeeListBak = [];
             }
             var exist = $scope.employeeList.some(function (e) {
                 return e === newvalue;
             });
             if (!exist) {
-                var employeeList=angular.copy($scope.employeeListBak);
+                var employeeList = angular.copy($scope.employeeListBak);
                 employeeList.unshift(newvalue.toString().toUpperCase());
-                $scope.employeeList=employeeList;
+                $scope.employeeList = employeeList;
             }
-        }else if(newvalue===""){
-            $scope.employeeList=angular.copy($scope.employeeListBak);
+        } else if (newvalue === "") {
+            $scope.employeeList = angular.copy($scope.employeeListBak);
         }
     }, true);
 }
