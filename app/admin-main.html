@@ -7,7 +7,7 @@
     <form class="navbar-form navbar-left" role="search">
         <div class="form-group">
             <div class="control-group">
-                <input type="text" class="form-control" placeholder="Search" ng-model="searchText"/>
+                <input type="text" class="form-control" placeholder="Search" ng-model="searchText" self-width="120"/>
 
             </div>
             <div class="control-group">
@@ -60,7 +60,7 @@
             </div>
             <div class="control-group">
                 合计成功：<span ng-bind="amountInfo.total"></span>
-                <span ng-show="amountInfo.increase">{{amountInfo.increase}}
+                <span ng-show="amountInfo.increase" class="increase">{{amountInfo.increase}}
                       <img src="../assets/img/increase.jpg" class="increase-img"/>
                 </span>
             </div>
