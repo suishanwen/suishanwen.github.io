@@ -1,4 +1,4 @@
-angular.module('managerApp', ['ui.bootstrap', 'wiki.common', 'ngRoute']);
+angular.module('managerApp', ['ui.bootstrap', 'ngRoute']);
 
 angular.module('managerApp').config(['$routeProvider',
     function ($routeProvider) {

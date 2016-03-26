@@ -15,112 +15,90 @@ table tr:nth-child(even) {
     background: #F9F9F9;
 }
 
-.notice {
-    font-size: 20px;
-    color: brown
-}
-
-.online {
-    background: yellowgreen;
-}
-.drop {
-    background-color: darkgray !important;
-}
-
 .selected {
     background-color: #7fc3ff !important;
 }
 
-thead {
-    border: 1px solid #aaa
+.drop {
+    background-color: darkgray !important;
 }
 
-tfoot {
-    border: 1px solid #aaa
-}
 
-.navbar-form .form-group .control-group {
+/*************************admin-main-index start**************************/
+.admin-main-index .navbar-form .form-group .control-group {
     display: inline-block;
     margin-left: 20px;
 }
-
-.project-search {
+.admin-main-index .book-mark{
+    display: block;
+    position: absolute;
+    cursor: pointer;
+    margin: auto;
+}
+.admin-main-index .book-mark img{
+    width: 20px;
+    height: 30px;
+}
+.admin-main-index .project-search {
     border: 1px green solid;
     width: 220px;
     display: block;
     position: absolute;
     overflow: hidden;
 }
-
-
-
-.employee-select{
+.admin-main-index .employee-select{
     border: 1px blue solid;
     width: 134px;
     display: block;
     position: absolute;
     overflow: hidden;
 }
-.employee-no{
+.admin-main-index .employee-no{
     display: inline-block;
     float: left;
     width:120px;
 }
-.employee-remove{
+.admin-main-index .employee-remove{
     display: inline-block;
     float: right;
     cursor: pointer;
     width:12px;
 }
-.project-name {
+.admin-main-index .project-name {
     display: inline-block;
     float: left;
     width: 180px;
 }
-
-.project-type {
+.admin-main-index .project-type {
     display: inline-block;
     float: right;
     width: 38px;
 }
 
-.vm-stop {
+.admin-main-index .vm-stop {
     display: inline-block;
     float: right;
 }
 
-.vm-row {
+.admin-main-index .vm-row {
     font-size: 12px;
 }
 
-.vm-row td {
+.admin-main-index .vm-row td {
     height: 20px;
     padding: 0;
 }
-
-.increase-img{
-    height: 20px;
-    width: 10px;
-}
-.qq-icon img{
-    width: 20px;
-    height: 25px;
-}
-
-.increase{
+.admin-main-index .increase{
     margin-left: 10px;
     font-size: 10px;
     color:grey;
 }
-
-
-.book-mark{
-    display: block;
-    position: absolute;
-    cursor: pointer;
-    margin: auto;
+.admin-main-index .increase-img{
+    height: 20px;
+    width: 10px;
 }
-.book-mark img{
+.admin-main-index .qq-icon img{
     width: 20px;
-    height: 30px;
+    height: 25px;
 }
+/*************************admin-main-index end**************************/

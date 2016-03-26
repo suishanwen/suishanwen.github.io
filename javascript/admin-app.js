@@ -1,4 +1,4 @@
-angular.module('adminApp',['ui.bootstrap','wiki.common','ngRoute']);
+angular.module('adminApp',['ui.bootstrap','ngRoute']);
 
 angular.module('adminApp').config(['$routeProvider',
     function ($routeProvider) {
