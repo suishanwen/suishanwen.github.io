@@ -22,10 +22,10 @@ angular.module('managerApp').value("modalOpt", {
     backdrop: true,
     backdropClick: false
 }).constant("api", {
-    "admins": "http://42.96.207.122:89/api/admin",
-    "adminAdd": "http://42.96.207.122:89/api/admin/add",
-    "adminUpdate": "http://42.96.207.122:89/api/admin/update",
-    "adminDelete": "http://42.96.207.122:89/api/admin/delete"
+    "admins": "http://121.42.239.141:89/api/admin",
+    "adminAdd": "http://121.42.239.141:89/api/admin/add",
+    "adminUpdate": "http://121.42.239.141:89/api/admin/update",
+    "adminDelete": "http://121.42.239.141:89/api/admin/delete"
 });
 
 angular.module("managerApp")

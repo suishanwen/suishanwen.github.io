@@ -27,16 +27,16 @@ angular.module('adminApp').value("modalOpt",{
         backdrop: true,
         backdropClick: false
     }) .constant("api",{
-        "login":"http://42.96.207.122:89/api/admin/login",
-        "employeeNoChange":"http://42.96.207.122:89/api/admin/eic",
-        "vms":"http://42.96.207.122:89/api/vm",
-        "vmDelete":"http://42.96.207.122:89/api/vm/delete",
-        "vmAdd":"http://42.96.207.122:89/api/vm/add",
-        "vmUpdate":"http://42.96.207.122:89/api/vm/update",
-        "vmChangeSingle":"http://42.96.207.122:89/api/vm/change-project-single",
-        "vmChangeAll":"http://42.96.207.122:89/api/vm/change-project-all",
-        "projectAdd":"http://42.96.207.122:89/api/project/add",
-        "projectSearch":"http://42.96.207.122:89/api/project"
+        "login":"http://121.42.239.141:89/api/admin/login",
+        "employeeNoChange":"http://121.42.239.141:89/api/admin/eic",
+        "vms":"http://121.42.239.141:89/api/vm",
+        "vmDelete":"http://121.42.239.141:89/api/vm/delete",
+        "vmAdd":"http://121.42.239.141:89/api/vm/add",
+        "vmUpdate":"http://121.42.239.141:89/api/vm/update",
+        "vmChangeSingle":"http://121.42.239.141:89/api/vm/change-project-single",
+        "vmChangeAll":"http://121.42.239.141:89/api/vm/change-project-all",
+        "projectAdd":"http://121.42.239.141:89/api/project/add",
+        "projectSearch":"http://121.42.239.141:89/api/project"
     });
 
 angular.module("adminApp")
